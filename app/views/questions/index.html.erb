@@ -1,0 +1,10 @@
+<h1>Q&A一覧</h1>
+
+<% @categories.each do |category| %>
+  <h2><%= category.name %></h2>
+  <ul>
+    <% category.questions.each do |question| %>
+      <li><%= question.title_jp %></li>
+    <% end %>
+  </ul>
+<% end %>
