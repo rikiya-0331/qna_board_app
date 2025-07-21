@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title_jp: MyText
+  title_en: MyText
+  answer_jp: MyText
+  answer_en: MyText
+  category: one
+
+two:
+  title_jp: MyText
+  title_en: MyText
+  answer_jp: MyText
+  answer_en: MyText
+  category: two
