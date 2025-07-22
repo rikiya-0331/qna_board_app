@@ -62,12 +62,23 @@ class QuizzesController < ApplicationController
     answered_question_ids = quiz_history.quiz_results.pluck(:question_id)
     next_question = Question.where(category: quiz_history.category).where.not(id: answered_question_ids).order("RANDOM()").first
 
+    # 正解の選択肢のIDを取得
+    correct_answer_choice = question.answer_choices.find_by(is_correct: true)
+    correct_answer_id = correct_answer_choice.id if correct_answer_choice
+
+    response_data = {
+      correct: is_correct,
+      correct_answer_id: correct_answer_id # ここを追加
+    }
+
     if next_question
-      render json: { correct: is_correct, next_question_url: quiz_question_path(next_question) }
+      response_data[:next_question_url] = quiz_question_path(next_question)
     else
       # クイズ終了
-      render json: { correct: is_correct, results_url: quiz_results_path }
+      response_data[:results_url] = quiz_results_path
     end
+
+    render json: response_data
   end
 
   def results

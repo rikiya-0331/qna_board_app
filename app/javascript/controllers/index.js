@@ -12,3 +12,6 @@ application.register("hello", HelloController)
 
 import QaCardController from "./qa_card_controller"
 application.register("qa-card", QaCardController)
+
+import QuizController from "./quiz_controller"
+application.register("quiz", QuizController)
