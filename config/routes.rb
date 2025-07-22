@@ -8,4 +8,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get '/quiz/start', to: 'quizzes#start'
+  post '/quiz/start', to: 'quizzes#create'
+  get '/quiz/results', to: 'quizzes#results'
+  get '/quiz/:id', to: 'quizzes#show', as: 'quiz_question'
+  post '/quiz/:id/answer', to: 'quizzes#answer', as: 'quiz_answer'
 end
