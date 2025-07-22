@@ -1,0 +1,75 @@
+<h1>問題</h1>
+
+<div id="quiz-container" data-question-id="<%= @question.id %>">
+  <h2>Q. <%= @question.title_jp %></h2>
+  <p>(<%= @question.title_en %>)</p>
+
+  <%= form_with url: quiz_answer_path(@question), method: :post, id: 'answer-form' do |form| %>
+    <div id="answer-choices">
+      <% @answer_choices.each do |choice| %>
+        <div>
+          <%= form.radio_button :selected_answer_choice_id, choice.id %>
+          <%= form.label "selected_answer_choice_id_#{choice.id}", choice.content_jp %>
+          (<%= choice.content_en %>)
+        </div>
+      <% end %>
+    </div>
+    <%= form.submit "解答する" %>
+  <% end %>
+</div>
+
+<div id="result-feedback" style="display: none;">
+  <p id="feedback-text"></p>
+  <a href="#" id="next-link">次の問題へ</a>
+</div>
+
+<script>
+  document.addEventListener('turbo:load', () => {
+    const answerForm = document.getElementById('answer-form');
+    const resultFeedback = document.getElementById('result-feedback');
+    const feedbackText = document.getElementById('feedback-text');
+    const nextLink = document.getElementById('next-link');
+
+    if (answerForm) {
+      answerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const selectedRadio = answerForm.querySelector('input[name="selected_answer_choice_id"]:checked');
+
+        if (!selectedRadio) {
+          alert('解答を選択してください。');
+          return;
+        }
+
+        const params = new URLSearchParams();
+        params.append('selected_answer_choice_id', selectedRadio.value);
+
+        const response = await fetch(answerForm.action, {
+          method: 'POST',
+          headers: {
+            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+          },
+          body: params
+        });
+
+        const result = await response.json();
+
+        // フィードバックを表示
+        feedbackText.textContent = result.correct ? '正解！' : '不正解...';
+        resultFeedback.style.display = 'block';
+        answerForm.style.display = 'none';
+
+        // 次へのリンクを設定
+        if (result.next_question_url) {
+          nextLink.href = result.next_question_url;
+          nextLink.textContent = '次の問題へ';
+        } else if (result.results_url) {
+          nextLink.href = result.results_url;
+          nextLink.textContent = '結果を見る';
+        }
+      });
+    }
+  });
+</script>

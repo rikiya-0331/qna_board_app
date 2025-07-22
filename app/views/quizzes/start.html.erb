@@ -1,0 +1,12 @@
+<h1>クイズカテゴリ選択</h1>
+
+<%= form_with url: quiz_start_path, method: :post do |form| %>
+  <div>
+    <%= form.label :category_id, "カテゴリを選択してください" %><br>
+    <%= form.collection_select :category_id, @categories, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.submit "クイズ開始" %>
+  </div>
+<% end %>
