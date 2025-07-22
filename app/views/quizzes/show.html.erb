@@ -1,75 +1,68 @@
-<h1>問題</h1>
+<!-- ページ全体を中央に配置し、Stimulusコントローラ「quiz」で管理するコンテナ -->
+<div class="min-h-screen bg-gray-100 flex justify-center items-center p-4"
+     data-controller="quiz"
+     data-quiz-question-id-value="<%= @question.id %>"> <!-- 現在の問題IDをStimulusに渡す -->
 
-<div id="quiz-container" data-question-id="<%= @question.id %>">
-  <h2>Q. <%= @question.title_jp %></h2>
-  <p>(<%= @question.title_en %>)</p>
+  <!-- クイズカードのコンテナ -->
+  <div class="bg-white shadow-lg rounded-lg p-8 max-w-2xl w-full">
 
-  <%= form_with url: quiz_answer_path(@question), method: :post, id: 'answer-form' do |form| %>
-    <div id="answer-choices">
+    <!-- 質問表示エリア -->
+    <div class="mb-6">
+      <p class="text-sm text-gray-500">Question</p>
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800"><%= @question.title_jp %></h2>
+      <p class="text-lg text-gray-600 mt-1"><%= @question.title_en %></p>
+    </div>
+
+    <!-- 選択肢表示エリア -->
+    <div class="space-y-3 mb-6" data-quiz-target="choicesContainer"> <!-- 選択肢全体を管理するターゲット -->
       <% @answer_choices.each do |choice| %>
-        <div>
-          <%= form.radio_button :selected_answer_choice_id, choice.id %>
-          <%= form.label "selected_answer_choice_id_#{choice.id}", choice.content_jp %>
-          (<%= choice.content_en %>)
-        </div>
+        <!-- 各選択肢のラベル。クリックでStimulusのselectChoiceメソッドを実行 -->
+        <label class="block w-full p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+               data-action="click->quiz#selectChoice"
+               data-quiz-target="choice"
+               data-choice-id="<%= choice.id %>">
+          <input type="radio" name="answer_choice" value="<%= choice.id %>" class="hidden"> <!-- ラジオボタン自体は非表示 -->
+          <span class="font-semibold text-gray-700"><%= choice.content_jp %></span>
+          <span class="text-sm text-gray-500 ml-2">(<%= choice.content_en %>)</span>
+        </label>
       <% end %>
     </div>
-    <%= form.submit "解答する" %>
-  <% end %>
+
+    <!-- アクションボタン群 -->
+    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+      <!-- 解答提出ボタン -->
+      <button class="w-full sm:w-auto flex-1 bg-indigo-600 text-white font-bold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+              data-action="click->quiz#submitAnswer"
+              data-quiz-target="submitButton">
+        解答する
+      </button>
+      <!-- 解答を見るボタン (初期状態は非表示) -->
+      <button class="w-full sm:w-auto flex-1 bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 hidden transition-colors"
+              data-action="click->quiz#toggleAnswerExplanation"
+              data-quiz-target="showAnswerButton">
+        解答を見る
+      </button>
+      <!-- 次へボタン (初期状態は非表示) -->
+      <button class="w-full sm:w-auto flex-1 bg-green-500 text-white font-bold py-3 px-6 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 hidden transition-colors"
+              data-action="click->quiz#nextQuestion"
+              data-quiz-target="nextButton">
+        次へ
+      </button>
+    </div>
+
+    <!-- 正誤判定フィードバックエリア (初期状態は非表示) -->
+    <div class="hidden mt-6 p-4 rounded-lg text-center"
+         data-quiz-target="feedbackContainer"> <!-- フィードバックコンテナをターゲットとして指定 -->
+      <p class="font-bold text-xl" data-quiz-target="feedbackText"></p> <!-- フィードバックテキストをターゲットとして指定 -->
+    </div>
+
+    <!-- 解答解説表示エリア (初期状態は非表示) -->
+    <div class="hidden mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg"
+         data-quiz-target="answerExplanation"> <!-- 解説エリアをターゲットとして指定 -->
+      <h4 class="font-bold text-gray-800">正解と解説</h4>
+      <p class="text-gray-700 mt-2"><%= @question.answer_jp %></p>
+      <p class="text-gray-600 text-sm mt-1">(<%= @question.answer_en %>)</p>
+    </div>
+
+  </div>
 </div>
-
-<div id="result-feedback" style="display: none;">
-  <p id="feedback-text"></p>
-  <a href="#" id="next-link">次の問題へ</a>
-</div>
-
-<script>
-  document.addEventListener('turbo:load', () => {
-    const answerForm = document.getElementById('answer-form');
-    const resultFeedback = document.getElementById('result-feedback');
-    const feedbackText = document.getElementById('feedback-text');
-    const nextLink = document.getElementById('next-link');
-
-    if (answerForm) {
-      answerForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        const selectedRadio = answerForm.querySelector('input[name="selected_answer_choice_id"]:checked');
-
-        if (!selectedRadio) {
-          alert('解答を選択してください。');
-          return;
-        }
-
-        const params = new URLSearchParams();
-        params.append('selected_answer_choice_id', selectedRadio.value);
-
-        const response = await fetch(answerForm.action, {
-          method: 'POST',
-          headers: {
-            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-          },
-          body: params
-        });
-
-        const result = await response.json();
-
-        // フィードバックを表示
-        feedbackText.textContent = result.correct ? '正解！' : '不正解...';
-        resultFeedback.style.display = 'block';
-        answerForm.style.display = 'none';
-
-        // 次へのリンクを設定
-        if (result.next_question_url) {
-          nextLink.href = result.next_question_url;
-          nextLink.textContent = '次の問題へ';
-        } else if (result.results_url) {
-          nextLink.href = result.results_url;
-          nextLink.textContent = '結果を見る';
-        }
-      });
-    }
-  });
-</script>

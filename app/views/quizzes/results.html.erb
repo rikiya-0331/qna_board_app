@@ -1,19 +1,30 @@
-<h1>クイズ結果</h1>
+<!-- ページ全体を中央に配置するためのコンテナ -->
+<div class="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
+  <!-- クイズ結果を表示するカードスタイルのコンテナ -->
+  <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full text-center">
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">クイズ結果</h1>
+    <p class="text-gray-600 mb-6">カテゴリ: <%= @quiz_history.category.name %></p>
 
-<% if @quiz_history %>
-  <div>
-    <h2>カテゴリ: <%= @quiz_history.category.name %></h2>
-    <p>総問題数: <%= @quiz_history.total_questions %></p>
-    <p>正解数: <%= @quiz_history.correct_answers %></p>
-    <p>スコア: <%= @quiz_history.score %></p>
+    <!-- スコアと正解数の表示エリア -->
+    <div class="space-y-4 text-lg">
+      <!-- スコア表示 -->
+      <div class="p-4 bg-blue-50 rounded-lg">
+        <p class="text-gray-600">スコア</p>
+        <p class="text-3xl font-bold text-blue-600"><%= @quiz_history.score %></p>
+      </div>
+      <!-- 正解数表示 -->
+      <div class="p-4 bg-green-50 rounded-lg">
+        <p class="text-gray-600">正解数</p>
+        <p class="text-2xl font-semibold text-green-600"><%= @quiz_history.correct_answers %> / <%= @quiz_history.total_questions %></p>
+      </div>
+    </div>
+
+    <!-- アクションボタン群 -->
+    <div class="mt-8">
+      <!-- もう一度クイズに挑戦するボタン -->
+      <%= link_to "もう一度挑戦する", quiz_start_path, class: "w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer transition duration-300 ease-in-out block" %>
+      <!-- トップに戻るボタン -->
+      <%= link_to "トップに戻る", root_path, class: "w-full mt-3 bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer transition duration-300 ease-in-out block" %>
+    </div>
   </div>
-
-  <hr>
-
-  <h3><a href="<%= root_path %>">トップに戻る</a></h3>
-  <h3><a href="<%= quiz_start_path %>">もう一度挑戦する</a></h3>
-
-<% else %>
-  <p>クイズの履歴が見つかりません。</p>
-  <a href="<%= quiz_start_path %>">クイズを開始する</a>
-<% end %>
+</div>
