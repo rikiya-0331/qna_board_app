@@ -1,0 +1,19 @@
+<h1>クイズ結果</h1>
+
+<% if @quiz_history %>
+  <div>
+    <h2>カテゴリ: <%= @quiz_history.category.name %></h2>
+    <p>総問題数: <%= @quiz_history.total_questions %></p>
+    <p>正解数: <%= @quiz_history.correct_answers %></p>
+    <p>スコア: <%= @quiz_history.score %></p>
+  </div>
+
+  <hr>
+
+  <h3><a href="<%= root_path %>">トップに戻る</a></h3>
+  <h3><a href="<%= quiz_start_path %>">もう一度挑戦する</a></h3>
+
+<% else %>
+  <p>クイズの履歴が見つかりません。</p>
+  <a href="<%= quiz_start_path %>">クイズを開始する</a>
+<% end %>
