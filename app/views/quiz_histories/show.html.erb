@@ -1,0 +1,41 @@
+<%# app/views/quiz_histories/show.html.erb %>
+
+<h1>クイズ結果詳細</h1>
+
+<% if @quiz_history %>
+  <p><strong>カテゴリ:</strong> <%= @quiz_history.category.name %></p>
+  <p><strong>実施日時:</strong> <%= @quiz_history.created_at.strftime("%Y年%m月%d日 %H時%M分") %></p>
+  <p><strong>正答数:</strong> <%= @quiz_history.correct_answers %></p>
+  <p><strong>合計問題数:</strong> <%= @quiz_history.total_questions %></p>
+  <p><strong>スコア:</strong> <%= @quiz_history.score %></p>
+
+  <h2>問題と回答</h2>
+  <% if @quiz_results.any? %>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>問題</th>
+          <th>あなたの回答</th>
+          <th>正解</th>
+          <th>判定</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @quiz_results.each do |result| %>
+          <tr>
+            <td><%= result.question.title_jp %></td>
+            <td><%= result.selected_answer_choice.content_jp %></td>
+            <td><%= result.question.answer_choices.find_by(is_correct: true).content_jp %></td>
+            <td><%= result.is_correct ? '正解' : '不正解' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>このクイズ履歴には問題と回答の詳細がありません。</p>
+  <% end %>
+<% else %>
+  <p>クイズ履歴が見つかりませんでした。</p>
+<% end %>
+
+<%= link_to 'マイページに戻る', mypage_path %>
