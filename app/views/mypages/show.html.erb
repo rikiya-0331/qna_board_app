@@ -1,0 +1,32 @@
+<%# app/views/mypages/show.html.erb %>
+
+<h1>マイページ</h1>
+
+<h2>あなたのクイズ履歴</h2>
+
+<% if @quiz_histories.any? %>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>カテゴリ</th>
+        <th>実施日時</th>
+        <th>正答数 / 合計問題数</th>
+        <th>スコア</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @quiz_histories.each do |history| %>
+        <tr>
+          <td><%= history.category.name %></td>
+          <td><%= history.created_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
+          <td><%= "#{history.correct_answers} / #{history.total_questions}" %></td>
+          <td><%= history.score %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>まだクイズをプレイしていません。</p>
+<% end %>
+
+<%= link_to 'ホームに戻る', root_path %>
