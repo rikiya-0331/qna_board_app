@@ -14,7 +14,8 @@ class QuizzesController < ApplicationController
       category: category,
       total_questions: questions.count, # カテゴリの総問題数を設定
       score: 0,
-      correct_answers: 0
+      correct_answers: 0,
+      user: current_user
     )
     session[:quiz_history_id] = quiz_history.id
 
