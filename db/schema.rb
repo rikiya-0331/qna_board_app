@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_22_131204) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_23_132621) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_131204) do
     t.index ["question_id"], name: "index_quiz_results_on_question_id"
     t.index ["quiz_history_id"], name: "index_quiz_results_on_quiz_history_id"
     t.index ["selected_answer_choice_id"], name: "index_quiz_results_on_selected_answer_choice_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "answer_choices", "questions"
