@@ -12,6 +12,7 @@
         <th>実施日時</th>
         <th>正答数 / 合計問題数</th>
         <th>スコア</th>
+        <th>詳細</th>
       </tr>
     </thead>
     <tbody>
@@ -21,6 +22,7 @@
           <td><%= history.created_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
           <td><%= "#{history.correct_answers} / #{history.total_questions}" %></td>
           <td><%= history.score %></td>
+          <td><%= link_to '詳細を見る', quiz_history_path(history) %></td>
         </tr>
       <% end %>
     </tbody>
