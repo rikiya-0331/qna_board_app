@@ -3,5 +3,6 @@ class MypagesController < ApplicationController
 
   def show
     @quiz_histories = current_user.quiz_histories.order(created_at: :desc)
+    @favorite_questions = current_user.favorite_questions.order(created_at: :desc)
   end
 end

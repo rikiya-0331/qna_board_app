@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_23_142204) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_24_003651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_142204) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_favorites_on_question_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -65,6 +74,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_142204) do
     t.index ["selected_answer_choice_id"], name: "index_quiz_results_on_selected_answer_choice_id"
   end
 
+  create_table "quizzes", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_quizzes_on_category_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -78,10 +96,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_142204) do
   end
 
   add_foreign_key "answer_choices", "questions"
+  add_foreign_key "favorites", "questions"
+  add_foreign_key "favorites", "users"
   add_foreign_key "questions", "categories"
   add_foreign_key "quiz_histories", "categories"
   add_foreign_key "quiz_histories", "users"
   add_foreign_key "quiz_results", "answer_choices", column: "selected_answer_choice_id"
   add_foreign_key "quiz_results", "questions"
   add_foreign_key "quiz_results", "quiz_histories"
+  add_foreign_key "quizzes", "categories"
 end
