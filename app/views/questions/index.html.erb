@@ -51,6 +51,16 @@
                 <p class="text-gray-500 text-sm mt-1"><%= question.title_en %></p>
               </div>
 
+              <% if user_signed_in? %> <%# ログインしている場合のみお気に入りボタンを表示 %>
+                <div class="text-right mt-2">
+                  <% if question.favorited_by?(current_user) %>
+                    <%= button_to 'お気に入り解除', question_favorites_path(question), method: :delete, class: "text-sm font-medium text-red-600 hover:text-red-800" %>
+                  <% else %>
+                    <%= button_to 'お気に入りに追加', question_favorites_path(question), method: :post, class: "text-sm font-medium text-blue-600 hover:text-blue-800" %>
+                  <% end %>
+                </div>
+              <% end %>
+
               <!--
                 [解説] 回答 (初期状態で非表示)
                 - `data-qa-card-target="answer"`: このdivを `qa-card` コントローラの「ターゲット」として設定します。

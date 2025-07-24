@@ -82,6 +82,10 @@ class QuizzesController < ApplicationController
     render json: response_data
   end
 
+  def detail
+    @quiz = Quiz.find(params[:id])
+  end
+
   def results
     @quiz_history = QuizHistory.find_by(id: session[:quiz_history_id])
     if @quiz_history.nil?

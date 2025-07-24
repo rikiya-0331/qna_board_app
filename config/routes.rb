@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :questions do
+    resource :favorites, only: [:create, :destroy]
+  end
+  resources :quizzes do
+    member do
+      get :detail
+    end
+  end
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
