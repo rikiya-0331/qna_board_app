@@ -1,41 +1,71 @@
-<%# app/views/quiz_histories/show.html.erb %>
+<div class="container mx-auto p-4">
+  <h1 class="text-3xl font-bold text-gray-900 mb-6">クイズ結果詳細</h1>
 
-<h1>クイズ結果詳細</h1>
+  <% if @quiz_history %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+      <div class="px-4 py-5 sm:px-6">
+        <h2 class="text-2xl font-semibold text-gray-800">クイズ概要</h2>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <dl class="sm:divide-y sm:divide-gray-200">
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">カテゴリ</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @quiz_history.category.name %></dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">実施日時</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= l @quiz_history.created_at, format: :long %></dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">正答数</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @quiz_history.correct_answers %> / <%= @quiz_history.total_questions %></dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">スコア</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @quiz_history.score %></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
 
-<% if @quiz_history %>
-  <p><strong>カテゴリ:</strong> <%= @quiz_history.category.name %></p>
-  <p><strong>実施日時:</strong> <%= @quiz_history.created_at.strftime("%Y年%m月%d日 %H時%M分") %></p>
-  <p><strong>正答数:</strong> <%= @quiz_history.correct_answers %></p>
-  <p><strong>合計問題数:</strong> <%= @quiz_history.total_questions %></p>
-  <p><strong>スコア:</strong> <%= @quiz_history.score %></p>
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">問題と回答</h2>
+    <% if @quiz_results.any? %>
+      <div class="space-y-6">
+        <% @quiz_results.each_with_index do |result, index| %>
+          <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Q<%= index + 1 %>. <%= result.question.title_jp %></h3>
+            <p class="text-gray-600 text-sm mb-4"><%= result.question.title_en %></p>
 
-  <h2>問題と回答</h2>
-  <% if @quiz_results.any? %>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>問題</th>
-          <th>あなたの回答</th>
-          <th>正解</th>
-          <th>判定</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @quiz_results.each do |result| %>
-          <tr>
-            <td><%= result.question.title_jp %></td>
-            <td><%= result.selected_answer_choice.content_jp %></td>
-            <td><%= result.question.answer_choices.find_by(is_correct: true).content_jp %></td>
-            <td><%= result.is_correct ? '正解' : '不正解' %></td>
-          </tr>
+            <div class="mb-4">
+              <p class="text-sm font-medium text-gray-500">あなたの回答:</p>
+              <p class="text-gray-800"><%= result.selected_answer_choice.content_jp %></p>
+              <p class="text-gray-500 text-sm"><%= result.selected_answer_choice.content_en %></p>
+            </div>
+
+            <div class="mb-4">
+              <p class="text-sm font-medium text-gray-500">正解:</p>
+              <p class="text-green-700 font-semibold"><%= result.question.answer_choices.find_by(is_correct: true).content_jp %></p>
+              <p class="text-green-600 text-sm"><%= result.question.answer_choices.find_by(is_correct: true).content_en %></p>
+            </div>
+
+            <div class="text-right">
+              <% if result.is_correct %>
+                <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">正解</span>
+              <% else %>
+                <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800">不正解</span>
+              <% end %>
+            </div>
+          </div>
         <% end %>
-      </tbody>
-    </table>
+      </div>
+    <% else %>
+      <p class="text-gray-600">このクイズ履歴には問題と回答の詳細がありません。</p>
+    <% end %>
   <% else %>
-    <p>このクイズ履歴には問題と回答の詳細がありません。</p>
+    <p class="text-gray-600">クイズ履歴が見つかりませんでした。</p>
   <% end %>
-<% else %>
-  <p>クイズ履歴が見つかりませんでした。</p>
-<% end %>
 
-<%= link_to 'マイページに戻る', mypage_path %>
+  <div class="mt-8 text-center">
+    <%= link_to 'マイページに戻る', mypage_path, class: "text-indigo-600 hover:text-indigo-800 font-medium" %>
+  </div>
+</div>
