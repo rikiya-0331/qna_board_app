@@ -1,0 +1,1 @@
+document.getElementById('favorite-button-<%= @question.id %>').innerHTML = '<%= j(render("favorites/favorite_button", question: @question)) %>';

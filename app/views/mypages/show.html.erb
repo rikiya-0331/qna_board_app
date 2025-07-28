@@ -6,7 +6,7 @@
 <% if @favorite_questions.any? %>
   <ul>
     <% @favorite_questions.each do |question| %>
-      <li><%= link_to question.title_jp, quiz_question_path(question) %></li>
+      <li><%= link_to question.title_jp, question_path(question) %></li>
     <% end %>
   </ul>
 <% else %>
