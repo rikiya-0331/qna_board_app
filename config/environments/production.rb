@@ -57,7 +57,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure that no sensitive information is otherwise
   # logged in production.
-  # config.log_level = :info # 開発時には :debug などにするが、本番では info か warn を推奨
+  config.log_level = :debug # 開発時には :debug などにするが、本番では info か warn を推奨
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
