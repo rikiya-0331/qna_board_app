@@ -1,45 +1,44 @@
-<%# app/views/mypages/show.html.erb %>
+<div class="container mx-auto p-4">
+  <h1 class="text-3xl font-bold text-gray-900 mb-6">マイページ</h1>
 
-<h1>マイページ</h1>
-
-<h2>あなたのお気に入り質問</h2>
-<% if @favorite_questions.any? %>
-  <ul>
-    <% @favorite_questions.each do |question| %>
-      <li><%= link_to question.title_jp, question_path(question) %></li>
+  <div class="mb-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">あなたのお気に入り質問</h2>
+    <% if @favorite_questions.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @favorite_questions.each do |question| %>
+          <div class="border rounded-lg shadow-sm p-4 bg-white hover:shadow-md transition-shadow">
+            <h3 class="font-semibold text-lg text-gray-900 mb-1">
+              <%= link_to question.title_jp, question_path(question), class: "hover:underline" %>
+            </h3>
+            <p class="text-gray-500 text-sm"><%= question.title_en %></p>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-600">まだお気に入り登録した質問はありません。</p>
     <% end %>
-  </ul>
-<% else %>
-  <p>まだお気に入り登録した質問はありません。</p>
-<% end %>
+  </div>
 
-<h2>あなたのクイズ履歴</h2>
+  <div>
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">あなたのクイズ履歴</h2>
+    <% if @quiz_histories.any? %>
+      <div class="space-y-4">
+        <% @quiz_histories.each do |history| %>
+          <div class="border rounded-lg shadow-sm p-4 bg-white hover:shadow-md transition-shadow">
+            <p class="font-semibold text-lg text-gray-900">
+              <%= history.category.name %> - スコア: <%= history.score %>点 (<%= history.correct_answers %> / <%= history.total_questions %>)
+            </p>
+            <p class="text-gray-600 text-sm">プレイ日時: <%= l history.created_at, format: :long %></p>
+            <%= link_to '詳細を見る', quiz_history_path(history), class: "text-blue-600 hover:underline mt-2 inline-block" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-600">まだクイズをプレイしていません。</p>
+    <% end %>
+  </div>
 
-<% if @quiz_histories.any? %>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>カテゴリ</th>
-        <th>実施日時</th>
-        <th>正答数 / 合計問題数</th>
-        <th>スコア</th>
-        <th>詳細</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @quiz_histories.each do |history| %>
-        <tr>
-          <td><%= history.category.name %></td>
-          <td><%= history.created_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
-          <td><%= "#{history.correct_answers} / #{history.total_questions}" %></td>
-          <td><%= history.score %></td>
-          <td><%= link_to '詳細を見る', quiz_history_path(history) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>まだクイズをプレイしていません。</p>
-<% end %>
-
-<%= link_to 'ホームに戻る', root_path %>
+  <div class="mt-8 text-center">
+    <%= link_to 'ホームに戻る', root_path, class: "text-indigo-600 hover:text-indigo-800 font-medium" %>
+  </div>
+</div>
