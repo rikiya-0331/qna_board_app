@@ -50,6 +50,12 @@ ARG RAILS_MASTER_KEY
 ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+# Set dummy environment variables for asset precompilation
+ENV MAILGUN_SMTP_SERVER=dummy_server
+ENV MAILGUN_SMTP_PORT=587
+ENV MAILGUN_DOMAIN=dummy.com
+ENV MAILGUN_SMTP_LOGIN=dummy_login
+ENV MAILGUN_SMTP_PASSWORD=dummy_password
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
