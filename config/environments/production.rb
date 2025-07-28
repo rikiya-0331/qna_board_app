@@ -72,18 +72,16 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "q_a_app_production"
 
   config.action_mailer.perform_caching = false
-
-  # ここにMailgunのSMTP設定を追加してください
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              'smtp.mailgun.org',
-    port:                 587,
-    authentication:       :plain,
-    user_name:            'postmaster@sandboxf891c5b56944b6ca8e917fed592c9f4.mailgun.org', # ここに直接ログインアドレスを貼り付け
-    password:             '1ba88819f8b67f7023b0e7d598f7f8563-3f1f4b1a-a8d4d79', # ここに直接、新しいパスワードを貼り付け
-    domain:               'sandboxf891c5b56944b6ca8e917fed592c9f4.mailgun.org',
-    enable_starttls_auto: true
-  }
+# 環境変数から読み込む元の形に戻す (これを使用)
+config.action_mailer.smtp_settings = {
+  address:              ENV.fetch('MAILGUN_SMTP_SERVER'),
+  port:                 ENV.fetch('MAILGUN_SMTP_PORT').to_i, # .to_i を忘れずに
+  authentication:       :plain,
+  user_name:            ENV.fetch('MAILGUN_SMTP_LOGIN'),
+  password:             ENV.fetch('MAILGUN_SMTP_PASSWORD'),
+  domain:               ENV.fetch('MAILGUN_DOMAIN'),
+  enable_starttls_auto: true
+}
 
 
   # Ignore bad email addresses and do not raise email delivery errors.
