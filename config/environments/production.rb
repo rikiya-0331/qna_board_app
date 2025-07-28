@@ -76,13 +76,13 @@ Rails.application.configure do
   # ここにMailgunのSMTP設定を追加してください
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :port           => ENV['MAILGUN_SMTP_PORT'],
-    :address        => ENV['MAILGUN_SMTP_SERVER'],
-    :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
-    :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-    :domain         => ENV['MAILGUN_DOMAIN'],
-    :authentication => :plain,
-    :enable_starttls_auto => true
+    address:              'smtp.mailgun.org',
+    port:                 587,
+    authentication:       :plain,
+    user_name:            'postmaster@sandboxf891c5b56944b6ca8e917fed592c9f4.mailgun.org', # ここに直接ログインアドレスを貼り付け
+    password:             '1ba88819f8b67f7023b0e7d598f7f8563-3f1f4b1a-a8d4d79', # ここに直接、新しいパスワードを貼り付け
+    domain:               'sandboxf891c5b56944b6ca8e917fed592c9f4.mailgun.org',
+    enable_starttls_auto: true
   }
 
 
