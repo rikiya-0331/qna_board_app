@@ -47,8 +47,10 @@
             <div data-controller="qa-card" class="border rounded-lg shadow-sm p-6 bg-white transition-shadow hover:shadow-md">
               <!-- 質問 -->
               <div class="font-semibold text-lg text-gray-900">
-                <p><%= question.title_jp %></p>
-                <p class="text-gray-500 text-sm mt-1"><%= question.title_en %></p>
+                <%= link_to question_path(question) do %>
+          <p><%= question.title_jp %></p>
+          <p class="text-gray-500 text-sm mt-1"><%= question.title_en %></p>
+        <% end %>
               </div>
 
               <% if user_signed_in? %> <%# ログインしている場合のみお気に入りボタンを表示 %>
