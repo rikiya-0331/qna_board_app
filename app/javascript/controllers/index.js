@@ -15,3 +15,6 @@ application.register("qa-card", QaCardController)
 
 import QuizController from "./quiz_controller"
 application.register("quiz", QuizController)
+
+import MenuController from "./menu_controller"
+application.register("menu", MenuController)
