@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :questions do
+  resources :questions, only: [:index, :show] do
     resource :favorites, only: [:create, :destroy]
   end
   resources :quizzes do
