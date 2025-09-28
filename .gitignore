@@ -38,3 +38,6 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+# Ignore Docker Compose override file
+/compose.override.yml
