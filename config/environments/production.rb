@@ -73,15 +73,15 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 # 環境変数から読み込む元の形に戻す (これを使用)
-config.action_mailer.smtp_settings = {
-  address:              ENV.fetch('MAILGUN_SMTP_SERVER'),
-  port:                 ENV.fetch('MAILGUN_SMTP_PORT').to_i, # .to_i を忘れずに
-  authentication:       :plain,
-  user_name:            ENV.fetch('MAILGUN_SMTP_LOGIN'),
-  password:             ENV.fetch('MAILGUN_SMTP_PASSWORD'),
-  domain:               ENV.fetch('MAILGUN_DOMAIN'),
-  enable_starttls_auto: true
-}
+# config.action_mailer.smtp_settings = {
+#   address:              ENV.fetch('MAILGUN_SMTP_SERVER'),
+#   port:                 ENV.fetch('MAILGUN_SMTP_PORT').to_i, # .to_i を忘れずに
+#   authentication:       :plain,
+#   user_name:            ENV.fetch('MAILGUN_SMTP_LOGIN'),
+#   password:             ENV.fetch('MAILGUN_SMTP_PASSWORD'),
+#   domain:               ENV.fetch('MAILGUN_DOMAIN'),
+#   enable_starttls_auto: true
+# }
 
 
   # Ignore bad email addresses and do not raise email delivery errors.
