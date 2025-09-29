@@ -41,6 +41,8 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 # Build JavaScript and CSS assets
+RUN pwd
+RUN ls -la app/javascript/
 RUN yarn build
 RUN yarn build:css
 
