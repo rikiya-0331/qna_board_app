@@ -40,14 +40,12 @@ RUN bundle install && \
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-# Build JavaScript and CSS assets
-RUN pwd
-RUN ls -la app/javascript/
-RUN yarn build
-RUN yarn build:css
-
 # Copy application code
 COPY . .
+
+# Build JavaScript and CSS assets
+RUN yarn build
+RUN yarn build:css
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
