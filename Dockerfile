@@ -56,22 +56,8 @@ ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 # Precompiling assets for production
 ENV MAILGUN_SMTP_LOGIN=dummy_login
 ENV MAILGUN_SMTP_PASSWORD=dummy_password
-RUN set -e && \
-    echo "=== Debug Rails Environment ===" && \
-    echo "Rails version: $(bundle exec rails --version)" && \
-    echo "Ruby version: $(ruby --version)" && \
-    echo "=== Checking config files ===" && \
-    ls -la config/ && \
-    echo "=== Content of environment.rb ===" && \
-    head -10 config/environment.rb && \
-    echo "=== Checking credentials ===" && \
-    ls -la config/credentials* || echo "No credentials files found" && \
-    echo "=== Setting environment ===" && \
-    export SECRET_KEY_BASE="$(openssl rand -hex 64)" && \
-    export RAILS_ENV=production && \
-    echo "SECRET_KEY_BASE length: ${#SECRET_KEY_BASE}" && \
-    echo "=== Testing Rails boot ===" && \
-    timeout 30 bundle exec rails runner "puts 'Rails loaded successfully'" || echo "Rails boot failed"
+RUN SECRET_KEY_BASE=a_very_long_and_random_string_for_asset_precompilation_only_1234567890abcdef \
+    bundle exec rails assets:precompile
 
 
 # Final stage for app image
