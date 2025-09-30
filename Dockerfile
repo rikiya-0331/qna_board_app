@@ -45,7 +45,6 @@ COPY . .
 
 # Build JavaScript and CSS assets
 RUN yarn build
-RUN yarn build:css
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
