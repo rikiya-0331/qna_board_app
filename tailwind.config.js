@@ -10,6 +10,14 @@ module.exports = {
     './app/assets/stylesheets/**/*.css',
     './app/components/**/*.{erb,haml,slim,rb}',
   ],
+  safelist: [
+    'bg-gray-800',
+    'text-white',
+    'p-4',
+    'shadow-md',
+    'text-2xl',
+    'font-bold'
+  ],
   theme: {
     extend: {},
   },
