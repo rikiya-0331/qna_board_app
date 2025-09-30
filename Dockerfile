@@ -57,6 +57,7 @@ ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 ENV MAILGUN_SMTP_LOGIN=dummy_login
 ENV MAILGUN_SMTP_PASSWORD=dummy_password
 RUN SECRET_KEY_BASE=a_very_long_and_random_string_for_asset_precompilation_only_1234567890abcdef \
+    DATABASE_URL=dummy://user:pass@host:1234/db \
     bundle exec rails assets:precompile
 
 
