@@ -6,12 +6,12 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
 # Rails app lives here
 WORKDIR /rails
-RUN echo "--- DOCKERFILE VERSION CHECK ---"
 
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle"
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development"
 
 
 # Throw-away build stage to reduce size of final image
@@ -32,10 +32,7 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN set -e && \
-    bundle install && \
-    bundle check && \
-    bundle show cssbundling-rails && \
+RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
@@ -59,7 +56,6 @@ ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 ENV MAILGUN_SMTP_LOGIN=dummy_login
 ENV MAILGUN_SMTP_PASSWORD=dummy_password
 RUN SECRET_KEY_BASE=a_very_long_and_random_string_for_asset_precompilation_only_1234567890abcdef \
-    DATABASE_URL=dummy://user:pass@host:1234/db \
     bundle exec rails assets:precompile
 
 
