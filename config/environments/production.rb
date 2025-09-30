@@ -112,8 +112,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Disable automatic asset bundling during precompile
-  config.cssbundling.build_on_precompile = false
-  config.jsbundling.build_on_precompile = false
+  config.cssbundling.build_on_precompile = true
+  config.jsbundling.build_on_precompile = true
 
   # Force `routes.default_url_options` to be set. If your app is called
   # "My Application" on Render, set this to:
