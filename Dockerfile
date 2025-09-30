@@ -6,6 +6,7 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
 # Rails app lives here
 WORKDIR /rails
+RUN echo "--- DOCKERFILE VERSION CHECK ---"
 
 # Set production environment
 ENV RAILS_ENV="production" \
