@@ -43,6 +43,9 @@ RUN yarn install --frozen-lockfile
 # Copy application code
 COPY . .
 
+# Ensure all gems are installed and available after copying the application code
+RUN bundle install --jobs=$(nproc) --retry 3
+
 # Build JavaScript and CSS assets
 RUN yarn build
 
