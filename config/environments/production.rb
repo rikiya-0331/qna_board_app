@@ -111,7 +111,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.jsbundling.build_on_precompile = false
+
 
   # Force `routes.default_url_options` to be set. If your app is called
   # "My Application" on Render, set this to:
