@@ -1,5 +1,5 @@
 <!-- ページ全体を中央に配置し、Stimulusコントローラ「quiz」で管理するコンテナ -->
-<div class="min-h-screen bg-gray-100 flex justify-center items-center p-4"
+<div class="min-h-screen bg-page-bg flex justify-center items-center p-4"
      data-controller="quiz"
      data-quiz-question-id-value="<%= @question.id %>"> <!-- 現在の問題IDをStimulusに渡す -->
 
@@ -31,19 +31,19 @@
     <!-- アクションボタン群 -->
     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
       <!-- 解答提出ボタン -->
-      <button class="w-full sm:w-auto flex-1 bg-indigo-600 text-white font-bold py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+      <button class="w-full sm:w-auto flex-1 bg-primary text-white font-bold py-3 px-6 rounded-md hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:bg-gray-400 transition-colors"
               data-action="click->quiz#submitAnswer"
               data-quiz-target="submitButton">
         解答する
       </button>
       <!-- 解答を見るボタン (初期状態は非表示) -->
-      <button class="w-full sm:w-auto flex-1 bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 hidden transition-colors"
+      <button class="w-full sm:w-auto flex-1 bg-primary text-gray-700 font-bold py-3 px-6 rounded-md hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary hidden transition-colors"
               data-action="click->quiz#toggleAnswerExplanation"
               data-quiz-target="showAnswerButton">
         解答を見る
       </button>
       <!-- 次へボタン (初期状態は非表示) -->
-      <button class="w-full sm:w-auto flex-1 bg-green-500 text-white font-bold py-3 px-6 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 hidden transition-colors"
+      <button class="w-full sm:w-auto flex-1 bg-primary text-white font-bold py-3 px-6 rounded-md hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary hidden transition-colors"
               data-action="click->quiz#nextQuestion"
               data-quiz-target="nextButton">
         次へ

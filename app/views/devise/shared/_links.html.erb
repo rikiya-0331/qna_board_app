@@ -21,7 +21,7 @@
 
   <%- if devise_mapping.omniauthable? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
-      <%= button_to "#{OmniAuth::Utils.camelize(provider)} でサインイン", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline block w-full mb-2" %>
+      <%= button_to "#{OmniAuth::Utils.camelize(provider)} でサインイン", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: "bg-primary hover:bg-primary text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline block w-full mb-2" %>
     <% end %>
   <% end %>
 </div>
