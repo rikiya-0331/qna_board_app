@@ -29,7 +29,7 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
-/public/assets
+
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
@@ -38,3 +38,8 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+# Ignore Docker Compose override file
+/compose.override.yml
+google_credentials.json
+/public/assets

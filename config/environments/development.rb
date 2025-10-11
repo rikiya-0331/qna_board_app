@@ -36,12 +36,31 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  # 以下の既存の action_mailer 設定をコメントアウト
   # Don't care if the mailer can't send.
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :letter_opener_web
+  #config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  #config.action_mailer.raise_delivery_errors = true
+  #config.action_mailer.delivery_method = :letter_opener_web
 
-  config.action_mailer.perform_caching = false
+  #config.action_mailer.perform_caching = false
+
+# Mailgunを使うためのSMTP設定を追加します
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+  address:              'smtp.mailgun.org',  # RenderのMAILGUN_SMTP_SERVERと同じ値
+  port:                 587,                 # RenderのMAILGUN_SMTP_PORTと同じ値
+  authentication:       :plain,
+  user_name:            'postmaster@sandboxf891c5b56944b6ca8e917fed592c9f4.mailgun.org', # RenderのMAILGUN_SMTP_LOGINと同じ値
+  password:             '3kh9umufjora5',      # RenderのMAILGUN_SMTP_PASSWORDと同じ値
+  domain:               'sandboxf891c5b56944b6ca8e917fed592c9f4.mailgun.org', # RenderのMAILGUN_DOMAINと同じ値
+  enable_starttls_auto: true
+}
+
+# 開発環境でもメール送信エラーを発生させる (これは残しておくと良い)
+config.action_mailer.raise_delivery_errors = true
+
+# メーラーのキャッシュ設定も、SMTPテスト中はfalseのままでOKです。
+# config.action_mailer.perform_caching = false # 元々コメントアウトされていなければ、この行はそのまま残してもOK
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -63,6 +82,8 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+  config.assets.digest = false
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

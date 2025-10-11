@@ -9,7 +9,9 @@ gem "rails", "~> 7.1.3"
 gem "sprockets-rails"
 
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
+group :production do
+  gem 'pg', '~> 1.1'
+end
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
@@ -28,6 +30,7 @@ gem "cssbundling-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
+gem "google-cloud-text_to_speech"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

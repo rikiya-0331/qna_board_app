@@ -43,11 +43,23 @@ RUN yarn install --frozen-lockfile
 # Copy application code
 COPY . .
 
+# Ensure all gems are installed and available after copying the application code
+RUN bundle install --jobs=$(nproc) --retry 3
+
+# Build JavaScript and CSS assets
+RUN yarn build
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+ARG RAILS_MASTER_KEY
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+
+# Precompiling assets for production
+ENV MAILGUN_SMTP_LOGIN=dummy_login
+ENV MAILGUN_SMTP_PASSWORD=dummy_password
+RUN SECRET_KEY_BASE=a_very_long_and_random_string_for_asset_precompilation_only_1234567890abcdef \
+    bundle exec rails assets:precompile
 
 
 # Final stage for app image

@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile # Use the main Dockerfile for production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: production
+      DATABASE_HOST: db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: password
+      # GOOGLE_APPLICATION_CREDENTIALS_JSON will be set directly on Render
+    volumes:
+      - bundle_data:/usr/local/bundle:cached
+      - node_modules:/myapp/node_modules
+    # command: The Dockerfile's CMD will handle starting the server
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: qna_board_production
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  bundle_data:
+  postgresql_data:
+  node_modules:

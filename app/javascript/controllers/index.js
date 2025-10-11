@@ -18,3 +18,6 @@ application.register("quiz", QuizController)
 
 import MenuController from "./menu_controller"
 application.register("menu", MenuController)
+
+import AudioPlayerController from "./audio_player_controller.js"
+application.register("audio-player", AudioPlayerController)

@@ -8,9 +8,9 @@
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen bg-page-bg">
 
-  <header class="bg-gray-800 text-white p-4 shadow-md" data-controller="menu" data-action="resize@window->menu#resize">
+  <header class="bg-primary text-white p-4 shadow-md" data-controller="menu" data-action="resize@window->menu#resize">
     <div class="container mx-auto flex flex-wrap justify-between items-center">
       <%# アプリケーションロゴ/タイトル %>
       <div class="text-2xl font-bold">
@@ -26,16 +26,16 @@
       </button>
 
       <%# ナビゲーションと認証リンク (lg以上で表示、lg未満では非表示だが、ハンバーガーメニューで表示される) %>
-      <nav data-menu-target="menu" class="hidden lg:flex lg:flex-row lg:items-center w-full lg:w-auto mt-4 lg:mt-0 bg-gray-700 lg:bg-transparent p-4 lg:p-0">
+      <nav data-menu-target="menu" class="hidden lg:flex lg:flex-row lg:items-center w-full lg:w-auto mt-4 lg:mt-0 bg-primary lg:bg-transparent p-4 lg:p-0">
         <ul class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 w-full">
-          <li><%= link_to "ホーム", root_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
-          <li><%= link_to "クイズを始める", quiz_start_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
+          <li><%= link_to "ホーム", root_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-primary lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
+          <li><%= link_to "クイズを始める", quiz_start_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-primary lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
           <% if user_signed_in? %>
-            <li><%= link_to "マイページ", mypage_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
-            <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
+            <li><%= link_to "マイページ", mypage_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-primary lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
+            <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-primary lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
           <% else %>
-            <li><%= link_to "新規登録", new_user_registration_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
-            <li><%= link_to "ログイン", new_user_session_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
+            <li><%= link_to "新規登録", new_user_registration_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-primary lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
+            <li><%= link_to "ログイン", new_user_session_path, class: "block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-primary lg:px-0 lg:py-0 lg:hover:text-gray-300" %></li>
           <% end %>
         </ul>
       </nav>
@@ -54,7 +54,7 @@
     <%= yield %>
   </main>
 
-  <footer class="bg-gray-800 text-white p-4 text-center mt-auto shadow-inner">
+  <footer class="bg-primary text-white p-4 text-center mt-auto shadow-inner">
     <div class="container mx-auto">
       <p>&copy; <%= Time.current.year %> Q&A App. All rights reserved.</p>
     </div>

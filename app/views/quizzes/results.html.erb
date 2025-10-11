@@ -1,5 +1,5 @@
 <!-- ページ全体を中央に配置するためのコンテナ -->
-<div class="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
+<div class="min-h-screen bg-page-bg flex flex-col justify-center items-center">
   <!-- クイズ結果を表示するカードスタイルのコンテナ -->
   <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full text-center">
     <h1 class="text-3xl font-bold text-gray-800 mb-4">クイズ結果</h1>
@@ -22,9 +22,9 @@
     <!-- アクションボタン群 -->
     <div class="mt-8">
       <!-- もう一度クイズに挑戦するボタン -->
-      <%= link_to "もう一度挑戦する", quiz_start_path, class: "w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer transition duration-300 ease-in-out block" %>
+<%= link_to "もう一度挑戦する", quiz_start_path, class: "w-full bg-primary text-white font-bold py-3 px-4 rounded-md hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer transition duration-300 ease-in-out block" %>
       <!-- トップに戻るボタン -->
-      <%= link_to "トップに戻る", root_path, class: "w-full mt-3 bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer transition duration-300 ease-in-out block" %>
+      <%= link_to "トップに戻る", root_path, class: "w-full mt-3 bg-primary text-gray-700 font-bold py-3 px-4 rounded-md hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer transition duration-300 ease-in-out block" %>
     </div>
   </div>
 </div>
