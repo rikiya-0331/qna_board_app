@@ -27,6 +27,7 @@ gem "stimulus-rails"
 
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem "cssbundling-rails"
+gem "sassc-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
@@ -51,6 +52,8 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'devise'
+gem 'activeadmin'
+gem 'cancancan'
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem 'rails-i18n'
