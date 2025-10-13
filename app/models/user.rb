@@ -18,4 +18,16 @@ class User < ApplicationRecord
   def favorited?(question)
     favorite_questions.include?(question)
   end
+
+  def admin?
+    admin
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["admin", "created_at", "email", "id", "name", "provider", "uid", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["favorite_questions", "favorites", "quiz_histories"]
+  end
 end

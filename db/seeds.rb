@@ -6,6 +6,8 @@ AnswerChoice.destroy_all
 Question.destroy_all
 QuizHistory.destroy_all
 Category.destroy_all
+User.destroy_all # Userも削除
+AdminUser.destroy_all # AdminUserも削除
 
 puts 'カテゴリを作成しています...'
 immigration = Category.create!(name: '入国審査')
@@ -61,3 +63,5 @@ AnswerChoice.create!([
 # 他にも必要に応じて質問と選択肢を追加できます
 
 puts 'シードデータの作成が完了しました。'
+User.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password', admin: true) if Rails.env.development?
+AdminUser.create!(email: 'admin@admin.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
