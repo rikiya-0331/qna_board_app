@@ -4,20 +4,20 @@
 
 import { application } from "./application"
 
+import AudioPlayerController from "./audio_player_controller"
+application.register("audio-player", AudioPlayerController)
+
 import FilterController from "./filter_controller"
 application.register("filter", FilterController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import MenuController from "./menu_controller"
+application.register("menu", MenuController)
+
 import QaCardController from "./qa_card_controller"
 application.register("qa-card", QaCardController)
 
 import QuizController from "./quiz_controller"
 application.register("quiz", QuizController)
-
-import MenuController from "./menu_controller"
-application.register("menu", MenuController)
-
-import AudioPlayerController from "./audio_player_controller.js"
-application.register("audio-player", AudioPlayerController)

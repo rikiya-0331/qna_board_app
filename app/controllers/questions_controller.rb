@@ -1,7 +1,15 @@
 class QuestionsController < ApplicationController
   def index
-    # includes(:questions) を使うことで、カテゴリとそれに関連する質問をまとめて取得
-    @categories = Category.includes(:questions)
+    @q = Question.ransack(params[:q])
+    
+    if params[:category_id]
+      @category = Category.find(params[:category_id])
+      @questions = @category.questions.ransack(params[:q]).result(distinct: true).includes(:category).page(params[:page])
+    else
+      @questions = @q.result(distinct: true).includes(:category).page(params[:page])
+    end
+    
+    @categories = Category.all
   end
 
   def show
