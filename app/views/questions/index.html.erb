@@ -14,75 +14,76 @@
     - `active:bg-blue-700 ...`: ボタンのスタイルです。通常時、ホバー時、クリック時のデザインを指定しています。
   -->
   <div class="flex flex-wrap justify-center gap-2 mb-8">
-            <button data-action="click->filter#select" data-category-name="all" class="bg-primary text-white font-bold py-2 px-4 rounded-full hover:bg-primary active:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-colors">      すべて
+    <button type="button" data-action="click->filter#select" data-filter-target="categoryButton" data-category-name="all" class="bg-primary text-white font-bold py-2 px-4 rounded-full transition-colors">
+      すべて
     </button>
     <% @categories.each do |category| %>
-              <button data-action="click->filter#select" data-category-name="<%= category.name %>" class="bg-primary text-gray-800 font-bold py-2 px-4 rounded-full hover:bg-primary active:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-colors">        <%= category.name %>
+      <button type="button" data-action="click->filter#select" data-filter-target="categoryButton" data-category-name="<%= category.name %>" class="bg-primary text-white font-bold py-2 px-4 rounded-full transition-colors">
+        <%= category.name %>
       </button>
     <% end %>
   </div>
 
-  <!--
-    [解説] 2. Q&Aカードリスト
-    - `space-y-8`: 各カテゴリ間の垂直方向の余白を設定します。
-  -->
-  <div class="space-y-8">
-    <% @categories.each do |category| %>
-      <!--
-        [解説] カテゴリごとのラッパー
-        - `data-filter-target="category"`: このdivを、filterコントローラの「ターゲット」として設定します。これによりJSからこの要素を簡単に選択できるようになります。
-        - `data-category-name="<%= category.name %>"`: 絞り込みの際に、どのカテゴリに属しているかを識別するために使用します。
-      -->
-      <div data-filter-target="category" data-category-name="<%= category.name %>">
-        <h2 class="text-2xl font-bold mb-4 border-b-2 border-blue-500 pb-2"><%= category.name %></h2>
-        <div class="space-y-4">
-          <% category.questions.each do |question| %>
-            <!--
-              [解説] 個別のQ&Aカード
-              - `data-controller="qa-card"`: このdivを `qa_card_controller.js` の管理範囲とします。
-              - `border rounded-lg shadow-sm ...`: カードデザインのためのTailwind CSSです。枠線、角丸、影などをつけています。
-            -->
-            <div data-controller="qa-card" class="border rounded-lg shadow-sm p-6 bg-white transition-shadow hover:shadow-md">
-              <!-- 質問 -->
-              <div class="font-semibold text-lg text-gray-900">
-                <%= link_to question_path(question) do %>
-          <p><%= question.title_jp %></p>
-          <p class="text-gray-500 text-sm mt-1"><%= question.title_en %></p>
-        <% end %>
-              </div>
+  <%# 検索が行われている場合にリセットボタンを表示 %>
+  <% if params[:q].present? %>
+    <div class="text-center mb-6">
+      <%= link_to '絞り込みをリセット', questions_path, class: "inline-block bg-gray-400 text-white font-bold py-2 px-6 rounded-full hover:bg-gray-500 transition-colors text-sm" %>
+    </div>
+  <% end %>
 
-              <% if user_signed_in? %> <%# ログインしている場合のみお気に入りボタンを表示 %>
-                <div class="text-right mt-2">
-                  <% if question.favorited_by?(current_user) %>
-                    <%= button_to 'お気に入り解除', question_favorites_path(question), method: :delete, class: "text-sm font-medium text-red-600 hover:text-red-800" %>
-                  <% else %>
-                    <%= button_to 'お気に入りに追加', question_favorites_path(question), method: :post, class: "text-sm font-medium text-blue-600 hover:text-blue-800" %>
+  <!-- 検索フォーム -->
+  <div class="mb-8">
+    <%= search_form_for @q, url: questions_path, method: :get, class: "flex items-center justify-center" do |f| %>
+      <%= f.search_field :title_jp_or_title_en_cont, placeholder: "キーワード検索...", class: "w-full max-w-lg px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" %>
+      <%= f.submit "検索", class: "px-6 py-2 bg-primary text-white font-bold rounded-r-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-colors" %>
+    <% end %>
+  </div>
+
+  <!-- Q&Aカードリスト -->
+  <div class="space-y-8">
+    <% if @questions.any? %>
+      <% @questions.group_by(&:category).each do |category, questions| %>
+        <div data-filter-target="category" data-category-name="<%= category.name %>">
+          <h2 class="text-2xl font-bold mb-4 border-b-2 border-blue-500 pb-2"><%= category.name %></h2>
+          <div class="space-y-4">
+            <% questions.each do |question| %>
+              <div data-controller="qa-card" class="border rounded-lg shadow-sm p-6 bg-white transition-shadow hover:shadow-md">
+                <!-- 質問 -->
+                <div class="font-semibold text-lg text-gray-900">
+                  <%= link_to question_path(question) do %>
+                    <p><%= question.title_jp %></p>
+                    <p class="text-gray-500 text-sm mt-1"><%= question.title_en %></p>
                   <% end %>
                 </div>
-              <% end %>
 
-              <!--
-                [解説] 回答 (初期状態で非表示)
-                - `data-qa-card-target="answer"`: このdivを `qa-card` コントローラの「ターゲット」として設定します。
-                - `hidden`: このTailwind CSSクラスで、要素を初期状態で非表示にしています。
-              -->
-              <div data-qa-card-target="answer" class="hidden mt-4 pt-4 border-t border-gray-200">
-                <p class="text-gray-800"><%= question.answer_jp %></p>
-                <p class="text-gray-500 text-sm mt-1"><%= question.answer_en %></p>
-              </div>
+                <% if user_signed_in? %>
+                  <div class="text-right mt-2">
+                    <% if question.favorited_by?(current_user) %>
+                      <%= button_to 'お気に入り解除', question_favorites_path(question), method: :delete, class: "text-sm font-medium text-red-600 hover:text-red-800" %>
+                    <% else %>
+                      <%= button_to 'お気に入りに追加', question_favorites_path(question), method: :post, class: "text-sm font-medium text-blue-600 hover:text-blue-800" %>
+                    <% end %>
+                  </div>
+                <% end %>
 
-              <!--
-                [解説] 切り替えボタン
-                - `data-action="click->qa-card#toggle"`: ボタンがクリックされたら、`qa-card`コントローラの`toggle`アクションを呼び出します。
-              -->
-              <div class="text-right mt-4">
-                <button data-action="click->qa-card#toggle" class="text-sm font-medium text-blue-600 hover:text-blue-800">
-                  回答を見る
-                </button>
+                <div data-qa-card-target="answer" class="hidden mt-4 pt-4 border-t border-gray-200">
+                  <p class="text-gray-800"><%= question.answer_jp %></p>
+                  <p class="text-gray-500 text-sm mt-1"><%= question.answer_en %></p>
+                </div>
+
+                <div class="text-right mt-4">
+                  <button data-action="click->qa-card#toggle" class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                    回答を見る
+                  </button>
+                </div>
               </div>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
+      <% end %>
+    <% else %>
+      <div class="text-center text-gray-500 py-10">
+        <p class="text-lg">該当する質問が見つかりませんでした。</p>
       </div>
     <% end %>
   </div>

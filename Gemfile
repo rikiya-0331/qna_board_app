@@ -52,6 +52,7 @@ gem "bootsnap", require: false
 
 gem 'devise'
 gem 'activeadmin'
+gem 'ransack'
 gem 'cancancan'
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
