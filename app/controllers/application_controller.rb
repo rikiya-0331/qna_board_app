@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     default_title = "Q&A Board App - 質問と回答で知識を共有"
     description = "Q&A Board Appは、様々な質問と回答を通じて知識を共有し、学びを深めるためのプラットフォームです。"
     keywords = "Q&A, 質問, 回答, 知識共有, 学習, プログラミング, 英語"
-    ogp_image = "https://via.placeholder.com/1200x630.png?text=Test+OGP+Image" # テスト用画像URL
+    ogp_image = view_context.image_url('ogp_default.png') # asset_pathではなくimage_urlを使用
 
     set_meta_tags(
       site: site_name,
