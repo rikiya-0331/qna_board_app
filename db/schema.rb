@@ -10,17 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_13_021909) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_15_090928) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "active_admin_comments", force: :cascade do |t|
+  create_table "active_admin_comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.bigint "resource_id"
+    t.uuid "resource_id"
     t.string "author_type"
-    t.bigint "author_id"
+    t.uuid "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
@@ -28,7 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_13_021909) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
-  create_table "admin_users", force: :cascade do |t|
+  create_table "admin_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -40,59 +41,59 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_13_021909) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "answer_choices", force: :cascade do |t|
+  create_table "answer_choices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "content_jp"
     t.text "content_en"
     t.boolean "is_correct"
-    t.bigint "question_id", null: false
+    t.uuid "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_answer_choices_on_question_id"
   end
 
-  create_table "categories", force: :cascade do |t|
+  create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "favorites", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "question_id", null: false
+  create_table "favorites", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_favorites_on_question_id"
     t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
-  create_table "questions", force: :cascade do |t|
+  create_table "questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "title_jp"
     t.text "title_en"
     t.text "answer_jp"
     t.text "answer_en"
-    t.bigint "category_id", null: false
+    t.uuid "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_questions_on_category_id"
   end
 
-  create_table "quiz_histories", force: :cascade do |t|
+  create_table "quiz_histories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "score"
     t.integer "total_questions"
     t.integer "correct_answers"
-    t.bigint "category_id", null: false
+    t.uuid "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.uuid "user_id"
     t.index ["category_id"], name: "index_quiz_histories_on_category_id"
     t.index ["user_id"], name: "index_quiz_histories_on_user_id"
   end
 
-  create_table "quiz_results", force: :cascade do |t|
+  create_table "quiz_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.boolean "is_correct"
-    t.bigint "selected_answer_choice_id", null: false
-    t.bigint "quiz_history_id", null: false
-    t.bigint "question_id", null: false
+    t.uuid "selected_answer_choice_id", null: false
+    t.uuid "quiz_history_id", null: false
+    t.uuid "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_quiz_results_on_question_id"
@@ -100,16 +101,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_13_021909) do
     t.index ["selected_answer_choice_id"], name: "index_quiz_results_on_selected_answer_choice_id"
   end
 
-  create_table "quizzes", force: :cascade do |t|
+  create_table "quizzes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.bigint "category_id", null: false
+    t.uuid "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_quizzes_on_category_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
