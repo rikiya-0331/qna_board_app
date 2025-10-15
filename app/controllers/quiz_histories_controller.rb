@@ -3,7 +3,7 @@ class QuizHistoriesController < ApplicationController
   before_action :set_quiz_history, only: [:show]
 
   def show
-    @quiz_results = @quiz_history.quiz_results.order(:id)
+    @quiz_results = @quiz_history.quiz_results.includes(:question, :selected_answer_choice).order(:id)
   end
 
   private

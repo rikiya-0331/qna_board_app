@@ -13,10 +13,10 @@ export default class extends Controller {
   ]
 
   static values = {
-    questionId: Number,
-    selectedChoiceId: Number,
+    questionId: String, // Number から String に変更
+    selectedChoiceId: String, // Number から String に変更
     answered: Boolean,
-    correctAnswerId: Number // Railsから受け取る正解のAnswerChoiceのID
+    correctAnswerId: String // Number から String に変更
   }
 
   connect() {
@@ -56,7 +56,7 @@ export default class extends Controller {
     selectedChoice.querySelector('input[type="radio"]').checked = true;
 
     // 選択された選択肢のIDをStimulusの値に設定
-    this.selectedChoiceIdValue = parseInt(selectedChoice.dataset.choiceId);
+    this.selectedChoiceIdValue = selectedChoice.dataset.choiceId; // parseInt() を削除
 
     // 解答ボタンを有効化
     this.submitButtonTarget.disabled = false;
@@ -148,7 +148,7 @@ export default class extends Controller {
   // 正解・不正解のスタイルを適用するヘルパーメソッド
   applyFeedbackStyles() {
     this.choiceTargets.forEach(choice => {
-      const choiceId = parseInt(choice.dataset.choiceId);
+      const choiceId = choice.dataset.choiceId; // parseInt() を削除
       const isSelected = choiceId === this.selectedChoiceIdValue;
       const isCorrectAnswer = choiceId === this.correctAnswerIdValue;
 

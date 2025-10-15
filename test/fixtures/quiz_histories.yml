@@ -5,6 +5,7 @@ one:
   total_questions: 1
   correct_answers: 1
   category: one
+  user: one
 
 two:
   score: 1

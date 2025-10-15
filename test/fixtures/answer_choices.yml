@@ -1,13 +1,25 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  content_jp: MyText
-  content_en: MyText
-  is_correct: false
+  content_jp: 正解の答え1
+  content_en: Correct Answer 1
+  is_correct: true
   question: one
 
 two:
-  content_jp: MyText
-  content_en: MyText
+  content_jp: 不正解の答え1
+  content_en: Incorrect Answer 1
+  is_correct: false
+  question: one
+
+three:
+  content_jp: 正解の答え2
+  content_en: Correct Answer 2
+  is_correct: true
+  question: two
+
+four:
+  content_jp: 不正解の答え2
+  content_en: Incorrect Answer 2
   is_correct: false
   question: two
