@@ -32,11 +32,12 @@
   <% end %>
 
   <!-- 検索フォーム -->
-  <div class="mb-8">
+  <div class="mb-8" data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_questions_path %>" data-autocomplete-min-length-value="2">
     <%= search_form_for @q, url: questions_path, method: :get, class: "flex items-center justify-center" do |f| %>
-      <%= f.search_field :title_jp_or_title_en_cont, placeholder: "キーワード検索...", class: "w-full max-w-lg px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" %>
+      <%= f.search_field :title_jp_or_title_en_cont, placeholder: "キーワード検索...", class: "w-full max-w-lg px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent", data: { autocomplete_target: "input", action: "input->autocomplete#search" } %>
       <%= f.submit "検索", class: "px-6 py-2 bg-primary text-white font-bold rounded-r-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-colors" %>
     <% end %>
+    <div data-autocomplete-target="results" class="absolute z-10 w-full max-w-lg bg-white border border-gray-300 rounded-md shadow-lg mt-1 hidden"></div>
   </div>
 
   <!-- Q&Aカードリスト -->

@@ -7,6 +7,9 @@ import { application } from "./application"
 import AudioPlayerController from "./audio_player_controller"
 application.register("audio-player", AudioPlayerController)
 
+import AutocompleteController from "./autocomplete_controller"
+application.register("autocomplete", AutocompleteController)
+
 import FilterController from "./filter_controller"
 application.register("filter", FilterController)
 

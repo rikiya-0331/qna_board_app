@@ -41,4 +41,41 @@ class QuestionsController < ApplicationController
     # 音声データ(MP3)をブラウザに送信
     send_data response.audio_content, type: 'audio/mpeg', disposition: 'inline'
   end
+
+  def autocomplete
+    # Stimulusコントローラーからのパラメータ名 'query' を使う
+    @questions = Question.search_by_keyword(params[:query]).limit(10)
+
+    # 強力なキャッシュ無効化
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, private, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = 'Thu, 01 Jan 1970 00:00:00 GMT'
+    response.headers['Last-Modified'] = Time.current.httpdate
+    response.headers.delete('ETag')
+
+    # フロントエンドで必要なデータを返す
+    json_data = @questions.map do |q|
+      {
+        id: q.id,
+        title_jp: q.title_jp,
+        title_en: q.title_en,
+        timestamp: Time.current.to_f # キャッシュ回避用のタイムスタンプ
+      }
+    end
+    
+    render json: json_data
+  end
+
+  def test_cache
+    expires_now
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    response.headers.delete('Etag')
+    render json: {
+      message: "Test response",
+      timestamp: Time.current.to_f,
+      random: rand(1000)
+    }
+  end
 end
