@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   }
 
   resources :questions, only: [:index, :show] do
+    collection do
+      get :autocomplete
+    end
     member do
       get :audio
     end
@@ -42,4 +45,6 @@ Rails.application.routes.draw do
   get '/quiz/results', to: 'quizzes#results'
   get '/quiz/:id', to: 'quizzes#show', as: 'quiz_question'
   post '/quiz/:id/answer', to: 'quizzes#answer', as: 'quiz_answer'
+
+  get '/test_cache', to: 'questions#test_cache'
 end

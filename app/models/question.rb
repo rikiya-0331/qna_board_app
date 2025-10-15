@@ -11,6 +11,13 @@ class Question < ApplicationRecord
     favoring_users.include?(user)
   end
 
+  # キーワード検索用のスコープ
+  scope :search_by_keyword, ->(keyword) do
+    if keyword.present?
+      where("title_jp ILIKE ? OR title_en ILIKE ?", "%#{keyword}%", "%#{keyword}%")
+    end
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["answer_en", "answer_jp", "category_id", "content", "created_at", "id", "id_value", "title_en", "title_jp", "updated_at"]
   end
