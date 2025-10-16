@@ -1,4 +1,7 @@
 class QuizzesController < ApplicationController
+  def index
+  end
+
   def start
     # クイズ開始ページでカテゴリを選択させる
     @categories = Category.all
@@ -20,7 +23,7 @@ class QuizzesController < ApplicationController
     session[:quiz_history_id] = quiz_history.id
 
     # カテゴリに紐づく最初の問題をランダムに取得してリダイレクト
-    first_question = questions.order("RANDOM()").first
+    first_question = questions.in_random_order.first
     if first_question
       redirect_to quiz_question_path(first_question)
     else
@@ -61,7 +64,7 @@ class QuizzesController < ApplicationController
 
     # 次の問題を探す
     answered_question_ids = quiz_history.quiz_results.pluck(:question_id)
-    next_question = Question.where(category: quiz_history.category).where.not(id: answered_question_ids).order("RANDOM()").first
+    next_question = Question.where(category: quiz_history.category).where.not(id: answered_question_ids).in_random_order.first
 
     # 正解の選択肢のIDを取得
     correct_answer_choice = question.answer_choices.find_by(is_correct: true)

@@ -31,6 +31,25 @@ services:
       - db
     env_file:
       - .env
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bundle exec rspec
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/myapp
+      - bundle_data:/usr/local/bundle:cached
+      - node_modules:/myapp/node_modules
+    environment:
+      TZ: Asia/Tokyo
+      RAILS_ENV: test
+      PGHOST: db
+    depends_on:
+      - db
+    env_file:
+      - .env
 volumes:
   bundle_data:
   postgresql_data:
