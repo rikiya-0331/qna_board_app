@@ -6,6 +6,8 @@ class Question < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favoring_users, through: :favorites, source: :user
 
+  scope :in_random_order, -> { Rails.env.test? ? order(id: :asc) : order("RANDOM()") }
+
   # 特定のユーザーがこの質問をお気に入り登録しているか確認するヘルパーメソッド
   def favorited_by?(user)
     favoring_users.include?(user)
@@ -23,6 +25,6 @@ class Question < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["category", "answer_choices"]
+    ["category", "answer_choices", "quiz_results", "favorites", "favoring_users"]
   end
 end
