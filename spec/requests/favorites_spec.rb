@@ -7,9 +7,7 @@ RSpec.describe "Favorites", type: :request do
   describe "POST /questions/:question_id/favorites" do
     context "as an authenticated user" do
       before do
-        sign_in user
-        puts "DEBUG: Favorites spec - current_user after sign_in: #{controller.current_user.inspect}"
-      end
+          sign_in user\n          puts \"DEBUG: Favorites spec - session['warden.user.user.key'] after sign_in: \#{request.session['warden.user.user.key'].inspect}\"\n        end
 
       it "adds the question to favorites" do
         expect {
