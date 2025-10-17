@@ -40,6 +40,9 @@ jobs:
       - name: Build CSS
         run: docker compose run --rm -e RAILS_ENV=test web bundle exec rails css:build
 
+      - name: Build JavaScript
+        run: docker compose run --rm -e RAILS_ENV=test web bundle exec rails javascript:build
+
       - name: Set up test database
         run: |
           docker compose run --rm -e RAILS_ENV=test web bundle exec rails db:create
