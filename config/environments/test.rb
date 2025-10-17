@@ -18,7 +18,17 @@ Rails.application.configure do
   config.eager_load = ENV["CI"].present?
 
   # For request specs
-  config.hosts << "www.example.com"\n\n  # Dummy Ability class for CanCanCan in test environment\n  class Ability\n    include CanCan::Ability\n\n    def initialize(user)\n      can :manage, :all\n    end\n  end\n
+  config.hosts << "www.example.com"
+
+  # Dummy Ability class for CanCanCan in test environment
+  class Ability
+    include CanCan::Ability
+
+    def initialize(user)
+      can :manage, :all
+    end
+  end
+
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
