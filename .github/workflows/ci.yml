@@ -19,6 +19,14 @@ jobs:
       - name: Start database
         run: docker compose up -d db
 
+      - name: Check container status
+        run: |
+          sleep 5 # Give containers a moment to settle
+          docker compose ps
+
+      - name: Show database logs
+        run: docker compose logs db
+
       - name: Wait for database to be ready
         run: |
           echo "Waiting for database..."
