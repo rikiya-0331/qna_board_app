@@ -9,8 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      COMPOSE_FILE: "compose.yml:compose.ci.yml"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,20 +32,20 @@ jobs:
           >&2 echo "Postgres is up - continuing..."
 
       - name: Install dependencies
-        run: docker compose run --rm web bundle install
+        run: docker compose run --rm -e RAILS_ENV=test web bundle install
+
+      - name: Set up test database
+        run: |
+          docker compose run --rm -e RAILS_ENV=test web bundle exec rails db:create
+          docker compose run --rm -e RAILS_ENV=test web bundle exec rails db:schema:load
 
       - name: Debug Rails configuration
         run: |
-          docker compose run --rm web bundle exec rails runner "
+          docker compose run --rm -e RAILS_ENV=test web bundle exec rails runner "
             puts 'Rails.env: ' + Rails.env
             puts 'Database connection: ' + ActiveRecord::Base.connection.active?.to_s
             puts 'Hosts config: ' + Rails.application.config.hosts.to_a.inspect
           "
 
-      - name: Set up database
-        run: |
-          docker compose run --rm web bundle exec rails db:create
-          docker compose run --rm web bundle exec rails db:schema:load
-
       - name: Run RSpec
-        run: docker compose run --rm web bundle exec rspec
+        run: docker compose run --rm -e RAILS_ENV=test web bundle exec rspec

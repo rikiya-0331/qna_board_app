@@ -1,9 +1,0 @@
-services:
-  web:
-    env_file: []
-    environment:
-      RAILS_ENV: test # Override RAILS_ENV for CI
-  test:
-    env_file: []
-    environment:
-      RAILS_ENV: test # Override RAILS_ENV for CI
