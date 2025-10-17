@@ -1,0 +1,5 @@
+services:
+  web:
+    env_file: null
+  test:
+    env_file: null
