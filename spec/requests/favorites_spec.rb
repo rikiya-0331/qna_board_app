@@ -14,6 +14,7 @@ RSpec.describe "Favorites", type: :request do
         expect {
           post question_favorites_path(question)
         }.to change(user.favorites, :count).by(1)
+        puts "DEBUG: Status: #{response.status}, Body: #{response.body.truncate(500)}"
         expect(response).to redirect_to(root_path)
       end
     end
