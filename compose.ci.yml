@@ -1,5 +1,5 @@
 services:
   web:
-    env_file: null
+    env_file: []
   test:
-    env_file: null
+    env_file: []
