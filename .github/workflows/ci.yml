@@ -34,6 +34,12 @@ jobs:
       - name: Install dependencies
         run: docker compose run --rm -e RAILS_ENV=test web bundle install
 
+      - name: Install JavaScript dependencies
+        run: docker compose run --rm -e RAILS_ENV=test web yarn install
+
+      - name: Build CSS
+        run: docker compose run --rm -e RAILS_ENV=test web bundle exec rails css:build
+
       - name: Set up test database
         run: |
           docker compose run --rm -e RAILS_ENV=test web bundle exec rails db:create
