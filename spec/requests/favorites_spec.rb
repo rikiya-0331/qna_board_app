@@ -8,6 +8,7 @@ RSpec.describe "Favorites", type: :request do
     context "as an authenticated user" do
       before do
         sign_in user
+        puts "DEBUG: Favorites spec - current_user after sign_in: #{controller.current_user.inspect}"
       end
 
       it "adds the question to favorites" do
