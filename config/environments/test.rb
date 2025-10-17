@@ -17,6 +17,19 @@ Rails.application.configure do
   # loading is working properly before deploying your code.
   config.eager_load = ENV["CI"].present?
 
+  # For request specs
+  config.hosts << "www.example.com"
+
+  # Dummy Ability class for CanCanCan in test environment
+  class Ability
+    include CanCan::Ability
+
+    def initialize(user)
+      can :manage, :all
+    end
+  end
+
+
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = {

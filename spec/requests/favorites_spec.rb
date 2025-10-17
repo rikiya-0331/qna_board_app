@@ -7,13 +7,14 @@ RSpec.describe "Favorites", type: :request do
   describe "POST /questions/:question_id/favorites" do
     context "as an authenticated user" do
       before do
-        sign_in user
-      end
+          sign_in user
+        end
 
       it "adds the question to favorites" do
         expect {
           post question_favorites_path(question)
         }.to change(user.favorites, :count).by(1)
+        puts "DEBUG: Status: #{response.status}, Body: #{response.body.truncate(500)}"
         expect(response).to redirect_to(root_path)
       end
     end

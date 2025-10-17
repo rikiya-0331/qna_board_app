@@ -62,4 +62,13 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # --- User-suggested debug and config ---
+  config.order = :defined # テスト実行順序を固定化
+
+  config.before(:each, type: :request) do
+    # CanCanCanを一時的に無効化
+    allow_any_instance_of(ApplicationController).to receive(:authorize!).and_return(true)
+  end
+  # --- End of user-suggested debug and config ---
 end

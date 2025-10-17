@@ -1,0 +1,60 @@
+name: Rails CI (Docker)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create empty .env file
+        run: touch .env
+
+      - name: Build the stack
+        run: docker compose build
+
+      - name: Start database
+        run: docker compose up -d db
+
+      - name: Wait for database to be ready
+        run: |
+          echo "Waiting for database..."
+          until docker compose exec db pg_isready -U postgres; do
+            >&2 echo "Postgres is unavailable - sleeping"
+            sleep 1
+          done
+          >&2 echo "Postgres is up - continuing..."
+
+      - name: Install dependencies
+        run: docker compose run --rm -e RAILS_ENV=test web bundle install
+
+      - name: Install JavaScript dependencies
+        run: docker compose run --rm -e RAILS_ENV=test web yarn install
+
+      - name: Build CSS
+        run: docker compose run --rm -e RAILS_ENV=test web bundle exec rails css:build
+
+      - name: Build JavaScript
+        run: docker compose run --rm -e RAILS_ENV=test web bundle exec rails javascript:build
+
+      - name: Set up test database
+        run: |
+          docker compose run --rm -e RAILS_ENV=test web bundle exec rails db:create
+          docker compose run --rm -e RAILS_ENV=test web bundle exec rails db:schema:load
+
+      - name: Debug Rails configuration
+        run: |
+          docker compose run --rm -e RAILS_ENV=test web bundle exec rails runner "
+            puts 'Rails.env: ' + Rails.env
+            puts 'Database connection: ' + ActiveRecord::Base.connection.active?.to_s
+            puts 'Hosts config: ' + Rails.application.config.hosts.to_a.inspect
+          "
+
+      - name: Run RSpec
+        run: docker compose run --rm -e RAILS_ENV=test web bundle exec rspec
