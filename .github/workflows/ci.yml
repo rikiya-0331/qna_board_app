@@ -19,6 +19,15 @@ jobs:
       - name: Start database
         run: docker compose up -d db
 
+      - name: Wait for database to be ready
+        run: |
+          echo "Waiting for database..."
+          until docker compose exec db pg_isready -U postgres; do
+            >&2 echo "Postgres is unavailable - sleeping"
+            sleep 1
+          done
+          >&2 echo "Postgres is up - continuing..."
+
       - name: Set up database
         run: |
           docker compose run --rm web bundle exec rails db:create
