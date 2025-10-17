@@ -31,6 +31,9 @@ jobs:
           done
           >&2 echo "Postgres is up - continuing..."
 
+      - name: Install dependencies
+        run: docker compose run --rm web bundle install
+
       - name: Set up database
         run: |
           docker compose run --rm web bundle exec rails db:create
