@@ -34,6 +34,14 @@ jobs:
       - name: Install dependencies
         run: docker compose run --rm web bundle install
 
+      - name: Debug Rails configuration
+        run: |
+          docker compose exec -T web bundle exec rails runner "
+            puts 'Rails.env: ' + Rails.env
+            puts 'Database connection: ' + ActiveRecord::Base.connection.active?.to_s
+            puts 'Hosts config: ' + Rails.application.config.hosts.to_a.inspect
+          "
+
       - name: Set up database
         run: |
           docker compose run --rm web bundle exec rails db:create
