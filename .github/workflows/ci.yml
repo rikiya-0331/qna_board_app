@@ -9,25 +9,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      COMPOSE_FILE: compose.yml:compose.ci.yml
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Create empty .env file
+        run: touch .env
 
       - name: Build the stack
         run: docker compose build
 
       - name: Start database
         run: docker compose up -d db
-
-      - name: Check container status
-        run: |
-          sleep 5 # Give containers a moment to settle
-          docker compose ps
-
-      - name: Show database logs
-        run: docker compose logs db
 
       - name: Wait for database to be ready
         run: |
