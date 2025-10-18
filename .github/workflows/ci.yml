@@ -58,3 +58,6 @@ jobs:
 
       - name: Run RSpec
         run: docker compose run --rm -e RAILS_ENV=test web bundle exec rspec
+
+      - name: Run RuboCop
+        run: docker compose run --rm -e RAILS_ENV=test web bundle exec rubocop

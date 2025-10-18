@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class QuizHistoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_quiz_history, only: [:show]
@@ -10,8 +12,8 @@ class QuizHistoriesController < ApplicationController
 
   def set_quiz_history
     @quiz_history = QuizHistory.find(params[:id])
-    unless @quiz_history.user == current_user
-      redirect_to mypage_path, alert: "アクセス権限がありません。"
-    end
+    return if @quiz_history.user == current_user
+
+    redirect_to mypage_path, alert: 'アクセス権限がありません。'
   end
 end

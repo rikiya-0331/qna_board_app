@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Question do
-  permit_params :title_jp, :title_en, :answer_jp, :answer_en, :category_id, answer_choices_attributes: [:id, :content_jp, :content_en, :is_correct, :_destroy]
+  permit_params :title_jp, :title_en, :answer_jp, :answer_en, :category_id,
+                answer_choices_attributes: %i[id content_jp content_en is_correct _destroy]
 
   index do
     selectable_column
@@ -43,7 +46,7 @@ ActiveAdmin.register Question do
       row :updated_at
     end
 
-    panel "Answer Choices" do
+    panel 'Answer Choices' do
       table_for question.answer_choices do
         column :content_jp
         column :content_en

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   has_many :quiz_histories, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -24,11 +26,11 @@ class User < ApplicationRecord
     admin
   end
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["admin", "created_at", "email", "id", "name", "provider", "uid", "updated_at"]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[admin created_at email id name provider uid updated_at]
   end
 
-  def self.ransackable_associations(auth_object = nil)
-    ["favorite_questions", "favorites", "quiz_histories"]
+  def self.ransackable_associations(_auth_object = nil)
+    %w[favorite_questions favorites quiz_histories]
   end
 end

@@ -1,0 +1,35 @@
+inherit_from: .rubocop_todo.yml
+
+# .rubocop.yml
+
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable # 新しいCopを有効にする
+  Exclude:
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'config/initializers/*'
+    - 'config/environments/*'
+    - 'config/application.rb'
+    - 'config/routes.rb'
+    - 'bin/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'node_modules/**/*'
+  TargetRubyVersion: 3.2.3
+  TargetRailsVersion: 7.1.3
+
+Rails:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false # クラスやメソッドのコメント強制を無効化
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb' # RSpecのテストコードではブロックが長くなりがちなので除外
+    - 'config/routes.rb'

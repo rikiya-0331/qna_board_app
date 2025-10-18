@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class QuestionsController < ApplicationController
   def index
     @q = Question.ransack(params[:q])
-    
+
     if params[:category_id]
       @category = Category.find(params[:category_id])
       @questions = @category.questions.ransack(params[:q]).result(distinct: true).includes(:category).page(params[:page])
     else
       @questions = @q.result(distinct: true).includes(:category).page(params[:page])
     end
-    
+
     @categories = Category.all
   end
 
@@ -28,8 +30,8 @@ class QuestionsController < ApplicationController
 
     # 音声合成のリクエストを設定
     synthesis_input = { text: text_to_synthesize }
-    voice = { language_code: "en-US", name: "en-US-Wavenet-F" } # 高品質なWaveNet音声を選択
-    audio_config = { audio_encoding: "MP3" }
+    voice = { language_code: 'en-US', name: 'en-US-Wavenet-F' } # 高品質なWaveNet音声を選択
+    audio_config = { audio_encoding: 'MP3' }
 
     # APIを呼び出して音声データを取得
     response = client.synthesize_speech(
@@ -62,7 +64,7 @@ class QuestionsController < ApplicationController
         timestamp: Time.current.to_f # キャッシュ回避用のタイムスタンプ
       }
     end
-    
+
     render json: json_data
   end
 
@@ -73,7 +75,7 @@ class QuestionsController < ApplicationController
     response.headers['Expires'] = '0'
     response.headers.delete('Etag')
     render json: {
-      message: "Test response",
+      message: 'Test response',
       timestamp: Time.current.to_f,
       random: rand(1000)
     }
