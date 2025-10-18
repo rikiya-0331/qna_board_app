@@ -1,0 +1,42 @@
+<!-- モーダルダイアログ -->
+<dialog data-modal-target="dialog" class="rounded-lg shadow-xl w-11/12 md:w-2/3 lg:w-2/3 max-w-4xl p-0 backdrop:bg-black backdrop:bg-opacity-50 m-auto">
+  <div data-action="click->modal#closeOnBackdropClick" class="p-6 md:p-8">
+    <div class="flex justify-between items-center pb-3">
+      <h2 class="text-2xl font-bold text-gray-800">使い方ガイド</h2>
+      <button data-action="click->modal#close" class="text-gray-500 hover:text-gray-800 p-2">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="space-y-6 text-gray-700">
+      <div>
+        <h3 class="text-lg font-semibold mb-2">1. クイズの始め方</h3>
+        <p>トップページにあるカテゴリ一覧から挑戦したいカテゴリを選び、「クイズ開始」ボタンをクリックするとクイズが始まります。</p>
+        <!-- ここにスクリーンショットを挿入できます -->
+        <!-- <img src="/path/to/quiz_start_screenshot.png" alt="クイズ開始方法" class="mt-2 rounded-lg border"> -->
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-2">2. 英文の検索方法</h3>
+        <p>ヘッダーにある検索バーにキーワードを入力すると、関連する質問をリアルタイムで検索できます。</p>
+        <!-- ここにスクリーンショットを挿入できます -->
+        <!-- <img src="/path/to/search_screenshot.png" alt="検索方法" class="mt-2 rounded-lg border"> -->
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-2">3. マイページで進捗を確認</h3>
+        <p>ログイン後、ヘッダーの「マイページ」から、過去のクイズ履歴やスコア、お気に入りに登録した質問を確認できます。</p>
+        <!-- ここにスクリーンショットを挿入できます -->
+        <!-- <img src="/path/to/mypage_screenshot.png" alt="マイページ" class="mt-2 rounded-lg border"> -->
+      </div>
+    </div>
+
+    <div class="flex justify-end pt-6">
+      <button data-action="click->modal#close" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+        閉じる
+      </button>
+    </div>
+  </div>
+</dialog>

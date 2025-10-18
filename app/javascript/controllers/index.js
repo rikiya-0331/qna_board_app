@@ -19,6 +19,9 @@ application.register("hello", HelloController)
 import MenuController from "./menu_controller"
 application.register("menu", MenuController)
 
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
 import QaCardController from "./qa_card_controller"
 application.register("qa-card", QaCardController)
 
