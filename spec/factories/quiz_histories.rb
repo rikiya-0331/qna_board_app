@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :quiz_history do
     score { Faker::Number.number(digits: 2) }

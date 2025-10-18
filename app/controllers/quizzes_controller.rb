@@ -1,17 +1,29 @@
+# frozen_string_literal: true
+
 class QuizzesController < ApplicationController
-  def index
-  end
+  def index; end
 
   def start
     # クイズ開始ページでカテゴリを選択させる
     @categories = Category.all
   end
 
+  def show
+    @quiz_history = QuizHistory.find_by(id: session[:quiz_history_id])
+    if @quiz_history.nil?
+      redirect_to quiz_start_path, alert: 'クイズを開始してください。'
+      return
+    end
+
+    @question = Question.find(params[:id])
+    @answer_choices = @question.answer_choices
+  end
+
   def create
     # 選択されたカテゴリを取得
     category = Category.find(params[:category_id])
     questions = Question.where(category: category)
-    
+
     # クイズ履歴を作成
     quiz_history = QuizHistory.create!(
       category: category,
@@ -27,19 +39,8 @@ class QuizzesController < ApplicationController
     if first_question
       redirect_to quiz_question_path(first_question)
     else
-      redirect_to root_path, alert: "選択されたカテゴリの問題が見つかりませんでした。"
+      redirect_to root_path, alert: '選択されたカテゴリの問題が見つかりませんでした。'
     end
-  end
-
-  def show
-    @quiz_history = QuizHistory.find_by(id: session[:quiz_history_id])
-    if @quiz_history.nil?
-      redirect_to quiz_start_path, alert: "クイズを開始してください。"
-      return
-    end
-
-    @question = Question.find(params[:id])
-    @answer_choices = @question.answer_choices
   end
 
   def answer
@@ -91,10 +92,11 @@ class QuizzesController < ApplicationController
 
   def results
     @quiz_history = QuizHistory.find_by(id: session[:quiz_history_id])
-    if @quiz_history.nil?
-      redirect_to quiz_start_path, alert: "クイズの履歴が見つかりません。"
-      return
-    end
+    return unless @quiz_history.nil?
+
+    redirect_to quiz_start_path, alert: 'クイズの履歴が見つかりません。'
+    nil
+
     # session[:quiz_history_id] = nil # 結果表示後にセッションをクリアする場合
   end
 end

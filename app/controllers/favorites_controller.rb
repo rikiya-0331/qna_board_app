@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class FavoritesController < ApplicationController
   before_action :authenticate_user! # ログインしていないユーザーは操作できないようにする
-  before_action :set_question, only: [:create, :destroy]
+  before_action :set_question, only: %i[create destroy]
 
   def create
     favorite = current_user.favorites.new(question_id: @question.id)

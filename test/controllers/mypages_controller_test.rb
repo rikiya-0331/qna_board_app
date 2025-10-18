@@ -1,4 +1,6 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class MypagesControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -6,7 +8,7 @@ class MypagesControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
   end
 
-  test "should get show" do
+  test 'should get show' do
     get mypage_url
     assert_response :success
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -10,13 +12,13 @@ RSpec.describe User, type: :model do
     it 'is invalid without a name' do
       user = build(:user, name: nil)
       user.valid?
-      expect(user.errors[:name]).to include("を入力してください")
+      expect(user.errors[:name]).to include('を入力してください')
     end
 
     it 'is invalid without an email' do
       user = build(:user, email: nil)
       user.valid?
-      expect(user.errors[:email]).to include("を入力してください")
+      expect(user.errors[:email]).to include('を入力してください')
     end
 
     it 'is invalid with a duplicate email' do
