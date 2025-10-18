@@ -6,6 +6,15 @@
 <div data-controller="filter" class="max-w-4xl mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold text-center mb-8">Q&A一覧</h1>
 
+  <!-- ▼ 使い方ガイド ▼ -->
+  <div data-controller="modal" class="text-center mb-8">
+    <button data-action="click->modal#open" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full transition-colors">
+      使い方を見る
+    </button>
+    <%= render 'shared/how_to_use_modal' %>
+  </div>
+  <!-- ▲ 使い方ガイド ▲ -->
+
   <!--
     [解説] 1. カテゴリ絞り込みボタン
     - `flex flex-wrap justify-center gap-2 mb-8`: ボタンを横並び(flex)にし、中央揃え(justify-center)にするためのTailwind CSSです。
